@@ -292,6 +292,31 @@ function throttle(func, limit) {
 // Apply throttling to scroll-heavy functions
 window.addEventListener('scroll', throttle(animateOnScroll, 100));
 
+// Mobile nav toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+    }
+
+    // Fade-in animation on scroll
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = 1;
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => {
+        observer.observe(el);
+    });
+});
+
 // Example usage for adding images:
 // addServiceImage('billboard-img', 'path/to/billboard-image.jpg', 'Billboard & LED Advertising');
 // addServiceImage('vehicle-img', 'path/to/vehicle-wraps-image.jpg', 'Vehicle & Wall Wraps');
